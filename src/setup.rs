@@ -7,14 +7,14 @@ use librespot_connect::discovery::discovery;
 use librespot_core::{
     authentication::Credentials,
     cache::Cache,
-    config::{ConnectConfig, DeviceType, VolumeCtrl},
+    config::{ConnectConfig, DeviceType},
     session::Session,
     session::SessionError,
 };
 use librespot_playback::{
     audio_backend::{Sink, BACKENDS},
-    config::AudioFormat,
-    mixer::{self, Mixer},
+    config::{AudioFormat, VolumeCtrl},
+    mixer::{self, Mixer, MixerConfig},
 };
 use log::info;
 use std::pin::Pin;
@@ -56,8 +56,9 @@ pub(crate) fn initial_state(config: config::SpotifydConfig) -> main_loop::MainLo
     #[cfg(not(feature = "alsa_backend"))]
     let mut mixer = {
         info!("Using software volume controller.");
-        Box::new(|| Box::new(mixer::softmixer::SoftMixer::open(None)) as Box<dyn Mixer>)
-            as Box<dyn FnMut() -> Box<dyn Mixer>>
+        Box::new(|| {
+            Box::new(mixer::softmixer::SoftMixer::open(MixerConfig::default())) as Box<dyn Mixer>
+        }) as Box<dyn FnMut() -> Box<dyn Mixer>>
     };
 
     let cache = config.cache;
@@ -90,8 +91,10 @@ pub(crate) fn initial_state(config: config::SpotifydConfig) -> main_loop::MainLo
             autoplay,
             name: config.device_name.clone(),
             device_type,
-            volume: mixer().volume(),
-            volume_ctrl: volume_ctrl.clone(),
+            // volume: mixer().volume(),
+            // volume_ctrl: volume_ctrl.clone(),
+            initial_volume: Some(1),
+            has_volume_ctrl: true,
         },
         device_id,
         zeroconf_port,

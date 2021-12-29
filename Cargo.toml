@@ -34,10 +34,10 @@ tokio-compat-02 = "0.2.0"
 tokio-stream = "0.1.7"
 url = "1.7"
 xdg = "2.2"
-librespot-audio = { version = "0.2.0", default-features=false, features = ["with-tremor"] }
-librespot-playback = { version = "0.2.0", default-features=false }
-librespot-core = { version = "0.2.0"}
-librespot-connect = { version = "0.2.0"}
+librespot-audio = { version = "0.3.1", default-features=false }
+librespot-playback = { version = "0.3.1", default-features=false }
+librespot-core = { version = "0.3.1"}
+librespot-connect = { version = "0.3.1"}
 toml = "0.5.8"
 color-eyre = "0.5"
 
@@ -51,7 +51,7 @@ env_logger = "0.7"
 alsa_backend = ["librespot-playback/alsa-backend", "alsa"]
 dbus_keyring = ["keyring"]
 dbus_mpris = ["dbus", "dbus-tokio", "dbus-crossroads"]
-default = ["alsa_backend"]
+# default = ["alsa_backend"]
 portaudio_backend = ["librespot-playback/portaudio-backend"]
 pulseaudio_backend = ["librespot-playback/pulseaudio-backend"]
 rodio_backend = ["librespot-playback/rodio-backend"]

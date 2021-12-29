@@ -357,7 +357,7 @@ pub struct SharedConfigValues {
 
     /// A custom pregain applied before sending the audio to the output device
     #[structopt(long, value_name = "number")]
-    normalisation_pregain: Option<f32>,
+    normalisation_pregain: Option<f64>,
 
     /// The port used for the Spotify Connect discovery
     #[structopt(long, value_name = "number")]
@@ -633,7 +633,7 @@ pub(crate) fn get_internal_config(config: CliConfig) -> SpotifydConfig {
 
     let device_id = device_id(&device_name);
 
-    let normalisation_pregain = config.shared_config.normalisation_pregain.unwrap_or(0.0f32);
+    let normalisation_pregain = config.shared_config.normalisation_pregain.unwrap_or(0.0f64);
 
     let autoplay = config.shared_config.autoplay;
 

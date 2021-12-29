@@ -6,13 +6,13 @@ use librespot_connect::{discovery::DiscoveryStream, spirc::Spirc};
 use librespot_core::session::SessionError;
 use librespot_core::{
     cache::Cache,
-    config::{ConnectConfig, DeviceType, SessionConfig, VolumeCtrl},
+    config::{ConnectConfig, DeviceType, SessionConfig},
     session::Session,
 };
 use librespot_playback::config::AudioFormat;
 use librespot_playback::{
     audio_backend::Sink,
-    config::PlayerConfig,
+    config::{PlayerConfig, VolumeCtrl},
     mixer::Mixer,
     player::{Player, PlayerEvent},
 };
@@ -168,8 +168,10 @@ impl Future for MainLoopState {
                         autoplay: self.autoplay,
                         name: self.spotifyd_state.device_name.clone(),
                         device_type: self.device_type,
-                        volume: self.initial_volume.unwrap_or_else(|| mixer.volume()),
-                        volume_ctrl: self.volume_ctrl.clone(),
+                        // volume: self.initial_volume.unwrap_or_else(|| mixer.volume()),
+                        initial_volume: self.initial_volume,
+                        // volume_ctrl: self.volume_ctrl.clone(),
+                        has_volume_ctrl: true,
                     },
                     session.clone(),
                     player,
